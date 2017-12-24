@@ -1,0 +1,91 @@
+<ActionBar class="action-bar">
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
+        ios.position="left">
+    </ActionItem>
+    <Label class="action-bar-title" text="Profile"></Label>
+</ActionBar>
+
+<!--
+RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/getting-started
+The RadSideDrawer component is designed to be used as a root element and
+it shouldn't have any other siblings other than the <ActionBar> component.
+-->
+<RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
+    <!--
+    Use the tkDrawerContent directive to display the content of the app drawer on this page.
+    -->
+    <StackLayout tkDrawerContent>
+        <MyDrawer [selectedPage]="'Profile'"></MyDrawer>
+    </StackLayout>
+    
+    <!--
+    Use the tkMainContent directive to display the content of the page when you have an app drawer.
+    -->
+    <GridLayout class="page page-content" tkMainContent>
+        <ScrollView>
+            <StackLayout class="page-styling"><!-- CONTENT HERE -->
+                <!-- <StackLayout> -->
+                <Image src="~/assets/images/profile.png" align="center" stretch="aspectFit"></Image>
+                <!-- <Button class="btn-radius" text="View Profile" (tap)="alert('profile')"></Button> -->
+                <!-- </StackLayout> -->
+                <!-- <StackLayout> -->
+                    <!-- <GridLayout rows="auto, auto" columns="50, auto" class="border-bottom-2">
+                        <Label row="0" rowSpan="2" col="0" class="fa" text="&#xf00c;" textWrap="true"></Label>
+                        <Label row="0" col="1" text="LEGAL NAME"></Label>
+                        <Label row="1" col="1" text="Manav Singhal"></Label>
+                    </GridLayout> -->
+                <RadListView class="list-group"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label>
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="LEGAL NAME" class="list-group-item-text"></Label>
+                                <Label text="Manav Singhal" class="list-group-item-heading"></Label>
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label>
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="BIRTHDATE" class="list-group-item-text"></Label>
+                                <Label text="November 14, 1988" class="list-group-item-heading"></Label>
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label>
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="EMAIL" class="list-group-item-text"></Label>
+                                <Label text="manav@velix.id" class="list-group-item-heading"></Label>
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+                <StackLayout class="my-20">
+                    <Button class="btn btn-rounded-lg btn-primary btn-active" text="AUTHORIZE" [nsRouterLink]="['/authorize']"></Button>                
+                </StackLayout>
+                <!-- <StackLayout class="page-styling">
+                    <Label class="text-center" text="Your Velix.ID" textWrap="true"></Label>
+                    <Label class="text-center head-title" text="4231 9876" textWrap="true"></Label>
+                </StackLayout> -->
+            </StackLayout>
+        </ScrollView>
+    </GridLayout>
+</RadSideDrawer>

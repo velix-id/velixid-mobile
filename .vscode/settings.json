@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/*.js": {"when": "$(basename).ts"}
+    },
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe"
+}
