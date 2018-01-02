@@ -9,6 +9,7 @@ const routes: Routes = [
     { path: "settings", loadChildren: "./settings/settings.module#SettingsModule" },
     { path: "authorize", loadChildren: "./authorize/authorize.module#AuthorizeModule" },
     { path: "authLog", loadChildren: "./auth-log/auth-log.module#AuthLogModule" },
+    { path: "authenticate", loadChildren: "./password/password.module#PasswordModule" },
 ];
 
 @NgModule({
