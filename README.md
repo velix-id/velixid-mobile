@@ -15,10 +15,8 @@
 > 	> `tns build android`
 > 	> &
 > 	> `tns build ios`
-> 8. For apk/ipa RELEASE build:
+> 8. For APK RELEASE build:
 > 	> `tns build android --release --keyStorePath keystore-file-path --keyStorePassword keystore-password --keyStoreAlias alias-name --keyStoreAliasPassword alias-password`
-> 	> &
-> 	> `tns build ios`
 
 
 For any technical assistance, contact: animeshtheanime@gmail.com
