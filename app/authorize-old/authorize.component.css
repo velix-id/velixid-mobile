@@ -1,0 +1,75 @@
+.text-center{
+    text-align: center;
+}
+.page-styling{
+    padding: 20 20;
+    color: black;
+    padding-bottom: 10;
+}
+.padding-50{
+    padding-top: 50;
+}
+.head-title{
+    font-size: 25;
+}
+.color-head{
+    color: rgb(8, 14, 59);
+}
+.head-title-2{
+    font-size: 20;
+}
+.text-bold{
+    font-weight: bold;
+}
+.my-20{
+    margin-bottom: 20;
+    margin-top: 20;
+}
+.border-bottom-2{
+    border-color: rgb(41, 41, 41);
+    border-bottom-width: 2;
+}
+.size-20{
+    font-size: 30;
+    color: #55DEB9;
+    font-weight: lighter;
+}
+.list-group-item-heading{
+    font-size: 20;
+    font-weight: bold;
+}
+.list-group-item-text{
+    font-weight: 200;
+}
+.mx-10{
+    margin-left: 10;
+    margin-right: 10;
+}
+.my-10{
+    margin-top: 10;
+    margin-bottom: 10;
+}
+.py-10{
+    padding-top: 10;
+    padding-bottom: 10;
+}
+.py-20{
+    padding-top: 20;
+    padding-bottom: 20;
+}
+.list-group-item{
+    /* padding-bottom: 10; */
+    border-color: black;
+    border-bottom-width: 2;
+    padding-left: 20;
+    padding-right: 20;
+}
+.mtop-40{
+    margin-top: 40;
+}
+.text-justify{
+    text-align: justify;
+}
+.terms{
+    color: rgb(100, 100, 100);
+}

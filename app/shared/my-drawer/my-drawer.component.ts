@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import * as applicationSettings from "application-settings";
 
 /* ***********************************************************
 * Keep data that is displayed in your app drawer in the MyDrawer component class.
@@ -11,6 +12,7 @@ import { Component, Input, OnInit } from "@angular/core";
     styleUrls: ["./my-drawer.component.css"]
 })
 export class MyDrawerComponent implements OnInit {
+    user:any;
     /* ***********************************************************
     * The "selectedPage" is a component input property.
     * It is used to pass the current page title from the containing page component.
@@ -19,6 +21,7 @@ export class MyDrawerComponent implements OnInit {
     @Input() selectedPage: string;
 
     ngOnInit(): void {
+        this.user=JSON.parse(applicationSettings.getString("user"));
         /* ***********************************************************
         * Use the MyDrawerComponent "onInit" event handler to initialize the properties data values.
         *************************************************************/

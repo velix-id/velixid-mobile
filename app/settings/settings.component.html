@@ -2,11 +2,11 @@
     <!-- 
     Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
     -->
-    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="!showMessage?onDrawerButtonTap():null"></NavigationButton>
     <!-- 
     Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
     -->
-    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="!showMessage?onDrawerButtonTap():null"
         ios.position="left">
     </ActionItem>
     <Label class="action-bar-title" text="Settings"></Label>
@@ -30,20 +30,21 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     <!--
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
-    <GridLayout class="page page-content" tkMainContent>
-        <ScrollView>
+    <GridLayout class="page page-content" tkMainContent rows="auto, *" >
+        <ScrollView row="1" height="auto">
             <StackLayout class="page-styling">
-                <StackLayout class="py-20">
+                <!-- <StackLayout class="py-20">
                     <Button class="btn btn-rounded-sm btn-primary btn-active" text="Backup Profile" (tap)="backupProfile()"></Button>
                     <Button class="btn btn-rounded-sm btn-primary btn-active" text="Restore Profile" (tap)="restoreProfile()"></Button>
-                    <Label text=" "></Label>
-                </StackLayout>
+                </StackLayout> -->
+                <Label class="red-text text-center" *ngIf="showMessage" text="Closing application.."></Label>
                 <StackLayout class="py-20">
-                    <Button class="btn btn-rounded-sm btn-outline btn-primary btn-active" text="Logout" (tap)="logout()"></Button>
+                    <Button class="btn btn-rounded-sm btn-outline btn-primary btn-active" text="Logout and Exit" (tap)="logout()"></Button>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
         <!-- <Label class="page-icon fa" text="&#xf013;"></Label> -->
         <!-- <Label class="page-placeholder" text="Page content goes here"></Label> -->
+        <Loader [isLoading]="isLoading" *ngIf="isLoading"></Loader>
     </GridLayout>
 </RadSideDrawer>

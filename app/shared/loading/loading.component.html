@@ -1,0 +1,3 @@
+<ScrollView row="1" [ngClass]="{'fill-screen-overlay':isLoading}" [isUserInteractionEnabled]="!isLoading">
+    <ActivityIndicator [busy]="isLoading" [visibility]="isLoading?'visible':'hidden'" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
+</ScrollView>

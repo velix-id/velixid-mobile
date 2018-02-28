@@ -24,20 +24,20 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     Use the tkDrawerContent directive to display the content of the app drawer on this page.
     -->
     <StackLayout tkDrawerContent>
-        <MyDrawer [selectedPage]="'Featured'"></MyDrawer>
+        <MyDrawer [selectedPage]="'Authorize'"></MyDrawer>
     </StackLayout>
     
     <!--
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
-    <GridLayout class="page page-content" tkMainContent>
-        <ScrollView>
-            <StackLayout class="page-styling padding-50"><!-- CONTENT HERE -->
+    <GridLayout class="page page-content" tkMainContent rows="auto, *" [isUserInteractionEnabled]="!isLoading">
+        <ScrollView row="1">
+            <StackLayout class="page-styling padding-30"><!-- CONTENT HERE -->
                 <!-- <Label class="fa" text="&#xf005;"></Label> -->
-                <Label class="text-center head-title text-bold fa" text="&#xf01d; COIN SECURE" textWrap="true"></Label>
-                <Label class="text-center head-title-2 my-20" text="Approve Authorization" textWrap="true"></Label>
-                <Label class="text-center my-20 text-bold" text="DETAILS TO BE SHARED WITH COIN SECURE" textWrap="true"></Label>
-                <RadListView class="list-group"> 
+                <!-- <Label class="text-center head-title text-bold fa" text="&#xf01d; COIN SECURE" textWrap="true"></Label> -->
+                <Label class="text-center head-title-2 my-10" text="Request Authorization" textWrap="true"></Label>
+                <Label class="text-center my-20 text-bold" text="DETAILS TO BE SHARED:" textWrap="true"></Label>
+                <!-- <RadListView class="list-group"> 
                     <RadListView.listViewLayout>
                         <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
                     </RadListView.listViewLayout>
@@ -49,20 +49,61 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                             </StackLayout>
                         </GridLayout>
                     </RadListView.itemTemplate>
+                </RadListView> -->
+                <RadListView class="list-group"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
                     <RadListView.itemTemplate>
                         <GridLayout class="list-group-item" rows="auto" columns="auto, *">
-                            <StackLayout row="0" col="0" >
-                                <Label text="MOBILE NO." class="list-group-item-text"></Label>
-                                <Label text="+1646 1234 123" class="list-group-item-heading"></Label>
+                            <StackLayout row="0" col="1" >
+                                <Label text="VELIX ID" class="list-group-item-text"></Label>
+                                <TextField autocapitalization="none" hint="XXXXXX" [text]="requestAuthID" [(ngModel)]="requestAuthID"></TextField>
+                                <!-- <Label text="+1646 1234 123" class="list-group-item-heading"></Label> -->
                             </StackLayout>
                         </GridLayout>
                     </RadListView.itemTemplate>
                 </RadListView>
-                <StackLayout class="mtop-40">
-                    <Label class="text-center py-10 terms" text="By continuing you agree to these applied info with Coin Secure. By continuing you agree to the Velix.ID Terms & Condition" textWrap="true"></Label>
-                    <Button class="btn btn-rounded-lg btn-primary btn-active" text="AUTHORIZE COIN SECURE" [nsRouterLink]="['/authorize']"></Button>                
+                <StackLayout class="m-t-10">
+                    <Label class="text-center py-10 terms" text="By continuing you agree to the Velix.ID Terms & Conditions" textWrap="true"></Label>
+                    <Button class="btn btn-rounded-lg btn-primary btn-active" text="REQUEST" (tap)="requestAuth()"></Button>                
                 </StackLayout>
+                <StackLayout class="m-t-20">
+                    <Label class="text-bold" text="Recieved authorization requests:" textWrap="true"></Label>
+                    <RadListView class="list-group" *ngFor="let request of requests; let i=index;"> 
+                        <RadListView.listViewLayout>
+                            <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                        </RadListView.listViewLayout>
+                        <RadListView.itemTemplate>
+                            <GridLayout class="list-group-item" rows="auto" columns="*,50,50">
+                                <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                                <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                                <StackLayout row="0" col="0" >
+                                    <!-- <Label text="FULL NAME" class="list-group-item-text m-x-5"></Label> -->
+                                    <!-- <Label [text]="request.timestamp | date:'medium'" class="list-group-item-text m-x-5"></Label> -->
+                                    <!-- <Label [text]="item.targetUser" class="list-group-item-text m-x-5"></Label> -->
+                                    <Label text="{{request.targetUser}}" textWrap="true" class="list-group-item-text m-x-5"></Label>
+                                    <!-- <Label text="November 14, 1988" class="list-group-item-heading"></Label> -->
+                                </StackLayout>
+                                <StackLayout row="0" col="1"*ngIf="request.status==-1">
+                                    <Label text="&#xf00c;" class="list-group-item-text fa m-x-5" (tap)="approveRequest(i,user.userID,request.targetUser)"></Label>
+                                </StackLayout>
+                                <StackLayout row="0" col="2" *ngIf="request.status==-1">
+                                    <Label text="&#xf00d;" class="list-group-item-text fa m-x-5" (tap)="declineRequest(i,user.userID,request.targetUser)"></Label>
+                                </StackLayout>
+                                <StackLayout row="0" col="1" colSpan="2" *ngIf="request.status==0">
+                                    <Label text="Declined" class="list-group-item-text fa m-x-5"></Label>
+                                </StackLayout>
+                                <StackLayout row="0" col="1" colSpan="2" *ngIf="request.status==1">
+                                    <Label text="Approved" class="list-group-item-text fa m-x-5"></Label>
+                                </StackLayout>
+                            </GridLayout>
+                        </RadListView.itemTemplate>
+                    </RadListView>
+                </StackLayout>
+
             </StackLayout>
         </ScrollView>
+        <Loader [isLoading]="isLoading" *ngIf="isLoading"></Loader>
     </GridLayout>
 </RadSideDrawer>

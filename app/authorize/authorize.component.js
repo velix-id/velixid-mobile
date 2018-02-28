@@ -3,14 +3,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var sidedrawer_1 = require("nativescript-pro-ui/sidedrawer");
 var angular_1 = require("nativescript-pro-ui/sidedrawer/angular");
+var database_service_1 = require("../shared/services/database.service");
+var dialogs = require("ui/dialogs");
 var AuthorizeComponent = (function () {
-    function AuthorizeComponent() {
+    function AuthorizeComponent(databaseService) {
+        this.databaseService = databaseService;
+        this.isLoading = true;
+        this.requestAuthID = "";
+        this.user = {
+            name: "",
+            email: "",
+            userID: ""
+        };
+        this.requests = [];
     }
     /* ***********************************************************
     * Use the sideDrawerTransition property to change the open/close animation of the drawer.
     *************************************************************/
     AuthorizeComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this._sideDrawerTransition = new sidedrawer_1.SlideInOnTopTransition();
+        this.databaseService.getUserData().then(function (user) {
+            if (user["userID"]) {
+                _this.user.name = user["name"];
+                _this.user.email = user["email"];
+                _this.user.userID = user["userID"];
+                _this.isLoading = false;
+                _this.getRequests();
+            }
+        });
+        /* this.user=JSON.parse(applicationSettings.getString("user"));
+        if(this.user.userID){
+            // console.log("YEAH, HE'S THERE!");
+        } */
     };
     Object.defineProperty(AuthorizeComponent.prototype, "sideDrawerTransition", {
         get: function () {
@@ -26,6 +51,76 @@ var AuthorizeComponent = (function () {
     AuthorizeComponent.prototype.onDrawerButtonTap = function () {
         this.drawerComponent.sideDrawer.showDrawer();
     };
+    AuthorizeComponent.prototype.requestAuth = function () {
+        var _this = this;
+        this.isLoading = true;
+        // console.log("REQUESTED!");
+        // console.log(this.requestAuthID);
+        this.databaseService.requestAuthInitial(this.user.userID, Number(this.requestAuthID)).then(function (result) {
+            var data = result;
+            if (data.success) {
+                dialogs.action("SUCCESS", "Ok", [data.message]);
+            }
+            else {
+                dialogs.action("ERROR", "Ok", [data.message]);
+            }
+            _this.isLoading = false;
+        });
+    };
+    AuthorizeComponent.prototype.getRequests = function () {
+        var _this = this;
+        this.isLoading = true;
+        // console.log("REQUESTS");
+        this.databaseService.getRequests().then(function (data) {
+            _this.requests = data["requests"];
+            _this.isLoading = false;
+        });
+        // console.dir(this.requests);
+    };
+    AuthorizeComponent.prototype.approveRequest = function (index, currentUser, targetUser) {
+        var _this = this;
+        this.isLoading = true;
+        dialogs.confirm("Are you sure? (This cannot be undone!)").then(function (result) {
+            if (result) {
+                // console.log(currentUser,targetUser);
+                _this.databaseService.approveRequest(currentUser, targetUser).then(function (success) {
+                    if (success) {
+                        // this.getRequests();
+                        // console.log("SUCCESS");
+                        dialogs.action("SUCCESS", "Ok", ["Request Approved"]).then(function () {
+                            _this.requests[index].status = 1;
+                            _this.isLoading = false;
+                        });
+                    }
+                });
+            }
+            else {
+                _this.isLoading = false;
+            }
+        });
+    };
+    AuthorizeComponent.prototype.declineRequest = function (index, currentUser, targetUser) {
+        var _this = this;
+        this.isLoading = true;
+        dialogs.confirm("Are you sure? (This cannot be undone!)").then(function (result) {
+            if (result) {
+                // console.log(currentUser,targetUser);
+                _this.databaseService.declineRequest(currentUser, targetUser).then(function (success) {
+                    if (success) {
+                        // this.getRequests();
+                        // console.log("SUCCESS");
+                        dialogs.action("SUCCESS", "Ok", ["Request Declined"]).then(function () {
+                            _this.requests[index].status = 0;
+                            _this.isLoading = false;
+                        });
+                    }
+                });
+            }
+            else {
+                _this.isLoading = false;
+            }
+        });
+    };
     __decorate([
         core_1.ViewChild("drawer"),
         __metadata("design:type", angular_1.RadSideDrawerComponent)
@@ -34,11 +129,12 @@ var AuthorizeComponent = (function () {
         core_1.Component({
             selector: "Authorize",
             moduleId: module.id,
+            providers: [database_service_1.DatabaseService],
             templateUrl: "./authorize.component.html",
             styleUrls: ['./authorize.component.css']
-        })
+        }),
+        __metadata("design:paramtypes", [database_service_1.DatabaseService])
     ], AuthorizeComponent);
     return AuthorizeComponent;
 }());
 exports.AuthorizeComponent = AuthorizeComponent;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXV0aG9yaXplLmNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImF1dGhvcml6ZS5jb21wb25lbnQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxzQ0FBNkQ7QUFDN0QsNkRBQThGO0FBQzlGLGtFQUFnRjtBQVNoRjtJQUFBO0lBMkJBLENBQUM7SUFsQkc7O2tFQUU4RDtJQUM5RCxxQ0FBUSxHQUFSO1FBQ0ksSUFBSSxDQUFDLHFCQUFxQixHQUFHLElBQUksbUNBQXNCLEVBQUUsQ0FBQztJQUM5RCxDQUFDO0lBRUQsc0JBQUksb0RBQW9CO2FBQXhCO1lBQ0ksTUFBTSxDQUFDLElBQUksQ0FBQyxxQkFBcUIsQ0FBQztRQUN0QyxDQUFDOzs7T0FBQTtJQUVEOzs7a0VBRzhEO0lBQzlELDhDQUFpQixHQUFqQjtRQUNJLElBQUksQ0FBQyxlQUFlLENBQUMsVUFBVSxDQUFDLFVBQVUsRUFBRSxDQUFDO0lBQ2pELENBQUM7SUFyQm9CO1FBQXBCLGdCQUFTLENBQUMsUUFBUSxDQUFDO2tDQUFrQixnQ0FBc0I7K0RBQUM7SUFMcEQsa0JBQWtCO1FBTjlCLGdCQUFTLENBQUM7WUFDUCxRQUFRLEVBQUUsV0FBVztZQUNyQixRQUFRLEVBQUUsTUFBTSxDQUFDLEVBQUU7WUFDbkIsV0FBVyxFQUFFLDRCQUE0QjtZQUN6QyxTQUFTLEVBQUUsQ0FBQywyQkFBMkIsQ0FBQztTQUMzQyxDQUFDO09BQ1csa0JBQWtCLENBMkI5QjtJQUFELHlCQUFDO0NBQUEsQUEzQkQsSUEyQkM7QUEzQlksZ0RBQWtCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBPbkluaXQsIFZpZXdDaGlsZCB9IGZyb20gXCJAYW5ndWxhci9jb3JlXCI7XG5pbXBvcnQgeyBEcmF3ZXJUcmFuc2l0aW9uQmFzZSwgU2xpZGVJbk9uVG9wVHJhbnNpdGlvbiB9IGZyb20gXCJuYXRpdmVzY3JpcHQtcHJvLXVpL3NpZGVkcmF3ZXJcIjtcbmltcG9ydCB7IFJhZFNpZGVEcmF3ZXJDb21wb25lbnQgfSBmcm9tIFwibmF0aXZlc2NyaXB0LXByby11aS9zaWRlZHJhd2VyL2FuZ3VsYXJcIjtcbmltcG9ydCB7IFJhZExpc3RWaWV3LCBMaXN0Vmlld0xpbmVhckxheW91dCB9IGZyb20gXCJuYXRpdmVzY3JpcHQtcHJvLXVpL2xpc3R2aWV3XCI7XG5cbkBDb21wb25lbnQoe1xuICAgIHNlbGVjdG9yOiBcIkF1dGhvcml6ZVwiLFxuICAgIG1vZHVsZUlkOiBtb2R1bGUuaWQsXG4gICAgdGVtcGxhdGVVcmw6IFwiLi9hdXRob3JpemUuY29tcG9uZW50Lmh0bWxcIixcbiAgICBzdHlsZVVybHM6IFsnLi9hdXRob3JpemUuY29tcG9uZW50LmNzcyddXG59KVxuZXhwb3J0IGNsYXNzIEF1dGhvcml6ZUNvbXBvbmVudCBpbXBsZW1lbnRzIE9uSW5pdCB7XG4gICAgLyogKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKipcbiAgICAqIFVzZSB0aGUgQFZpZXdDaGlsZCBkZWNvcmF0b3IgdG8gZ2V0IGEgcmVmZXJlbmNlIHRvIHRoZSBkcmF3ZXIgY29tcG9uZW50LlxuICAgICogSXQgaXMgdXNlZCBpbiB0aGUgXCJvbkRyYXdlckJ1dHRvblRhcFwiIGZ1bmN0aW9uIGJlbG93IHRvIG1hbmlwdWxhdGUgdGhlIGRyYXdlci5cbiAgICAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqL1xuICAgIEBWaWV3Q2hpbGQoXCJkcmF3ZXJcIikgZHJhd2VyQ29tcG9uZW50OiBSYWRTaWRlRHJhd2VyQ29tcG9uZW50O1xuXG4gICAgcHJpdmF0ZSBfc2lkZURyYXdlclRyYW5zaXRpb246IERyYXdlclRyYW5zaXRpb25CYXNlO1xuXG4gICAgLyogKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKipcbiAgICAqIFVzZSB0aGUgc2lkZURyYXdlclRyYW5zaXRpb24gcHJvcGVydHkgdG8gY2hhbmdlIHRoZSBvcGVuL2Nsb3NlIGFuaW1hdGlvbiBvZiB0aGUgZHJhd2VyLlxuICAgICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovXG4gICAgbmdPbkluaXQoKTogdm9pZCB7XG4gICAgICAgIHRoaXMuX3NpZGVEcmF3ZXJUcmFuc2l0aW9uID0gbmV3IFNsaWRlSW5PblRvcFRyYW5zaXRpb24oKTtcbiAgICB9XG5cbiAgICBnZXQgc2lkZURyYXdlclRyYW5zaXRpb24oKTogRHJhd2VyVHJhbnNpdGlvbkJhc2Uge1xuICAgICAgICByZXR1cm4gdGhpcy5fc2lkZURyYXdlclRyYW5zaXRpb247XG4gICAgfVxuXG4gICAgLyogKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKipcbiAgICAqIEFjY29yZGluZyB0byBndWlkZWxpbmVzLCBpZiB5b3UgaGF2ZSBhIGRyYXdlciBvbiB5b3VyIHBhZ2UsIHlvdSBzaG91bGQgYWx3YXlzXG4gICAgKiBoYXZlIGEgYnV0dG9uIHRoYXQgb3BlbnMgaXQuIFVzZSB0aGUgc2hvd0RyYXdlcigpIGZ1bmN0aW9uIHRvIG9wZW4gdGhlIGFwcCBkcmF3ZXIgc2VjdGlvbi5cbiAgICAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqL1xuICAgIG9uRHJhd2VyQnV0dG9uVGFwKCk6IHZvaWQge1xuICAgICAgICB0aGlzLmRyYXdlckNvbXBvbmVudC5zaWRlRHJhd2VyLnNob3dEcmF3ZXIoKTtcbiAgICB9XG59XG4iXX0=

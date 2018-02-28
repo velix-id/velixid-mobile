@@ -5,15 +5,18 @@ Feel free to customize layouts and components to change how your app drawer look
 <GridLayout rows="auto, *" class="sidedrawer sidedrawer-left">
     <StackLayout row="0" class="sidedrawer-header">
         <Label class="sidedrawer-header-image fa" text="&#xf2bd;"></Label>
-        <Label class="sidedrawer-header-brand" text="Manav Singhal"></Label>
-        <Label class="footnote" text="manav@velix.id"></Label>
+        <!-- <Label class="fa" text="&#xf2bd;"></Label> -->
+        <Label class="sidedrawer-header-brand" [text]="user.name"></Label>
+        <Label class="footnote" [text]="user.email"></Label>
     </StackLayout>
 
     <ScrollView row="1">
         <StackLayout class="sidedrawer-content">
             <MyDrawerItem title="Home" route="/home" icon="&#xf015;" [isSelected]="isPageSelected('Home')">
             </MyDrawerItem>
-            <MyDrawerItem title="Profile" route="/profile" icon="&#xf1ea;" [isSelected]="isPageSelected('Profile')">
+            <MyDrawerItem title="Profile" route="/profile" icon="&#xf2bd;" [isSelected]="isPageSelected('Profile')">
+            </MyDrawerItem>
+            <MyDrawerItem title="Authorize" route="/authorize" icon="&#xf26e;" [isSelected]="isPageSelected('Authorize')">
             </MyDrawerItem>
             <MyDrawerItem title="Settings" route="/settings" icon="&#xf013;" [isSelected]="isPageSelected('Settings')">
             </MyDrawerItem>
@@ -22,6 +25,7 @@ Feel free to customize layouts and components to change how your app drawer look
             
             <MyDrawerItem title="Authorisation Log" route="/authLog" icon="&#xf002;" [isSelected]="isPageSelected('AuthLog')">
             </MyDrawerItem>
+            
         </StackLayout>
     </ScrollView>
 </GridLayout>

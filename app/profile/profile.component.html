@@ -52,34 +52,44 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                             <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label>
                             <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
                             <StackLayout row="0" col="1" >
-                                <Label text="LEGAL NAME" class="list-group-item-text"></Label>
-                                <Label text="Manav Singhal" class="list-group-item-heading"></Label>
+                                <Label text="VELIX ID" class="list-group-item-text"></Label>
+                                <Label [text]="user.userID" class="list-group-item-heading"></Label>
                             </StackLayout>
                         </GridLayout>
                     </RadListView.itemTemplate>
+                </RadListView>
+                <RadListView class="list-group"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
                     <RadListView.itemTemplate>
                         <GridLayout class="list-group-item" rows="auto" columns="auto, *">
                             <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label>
                             <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
                             <StackLayout row="0" col="1" >
-                                <Label text="BIRTHDATE" class="list-group-item-text"></Label>
-                                <Label text="November 14, 1988" class="list-group-item-heading"></Label>
+                                <Label text="LEGAL NAME" class="list-group-item-text"></Label>
+                                <Label [text]="user.name" class="list-group-item-heading"></Label>
                             </StackLayout>
                         </GridLayout>
                     </RadListView.itemTemplate>
+                </RadListView>
+                <RadListView class="list-group"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
                     <RadListView.itemTemplate>
                         <GridLayout class="list-group-item" rows="auto" columns="auto, *">
                             <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label>
                             <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
                             <StackLayout row="0" col="1" >
                                 <Label text="EMAIL" class="list-group-item-text"></Label>
-                                <Label text="manav@velix.id" class="list-group-item-heading"></Label>
+                                <Label [text]="user.email" class="list-group-item-heading"></Label>
                             </StackLayout>
                         </GridLayout>
                     </RadListView.itemTemplate>
                 </RadListView>
                 <StackLayout class="my-20">
-                    <Button class="btn btn-rounded-lg btn-primary btn-active" text="AUTHORIZE" [nsRouterLink]="['/authorize']"></Button>                
+                    <!-- <Button class="btn btn-rounded-lg btn-primary btn-active" text="AUTHORIZE" [nsRouterLink]="['/authorize']"></Button>                 -->
                 </StackLayout>
                 <!-- <StackLayout class="page-styling">
                     <Label class="text-center" text="Your Velix.ID" textWrap="true"></Label>

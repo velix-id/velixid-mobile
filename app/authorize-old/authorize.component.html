@@ -1,0 +1,68 @@
+<ActionBar class="action-bar">
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
+        ios.position="left">
+    </ActionItem>
+    <Label class="action-bar-title" text="Authorize"></Label>
+</ActionBar>
+
+<!--
+RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/getting-started
+The RadSideDrawer component is designed to be used as a root element and
+it shouldn't have any other siblings other than the <ActionBar> component.
+-->
+<RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
+    <!--
+    Use the tkDrawerContent directive to display the content of the app drawer on this page.
+    -->
+    <StackLayout tkDrawerContent>
+        <MyDrawer [selectedPage]="'Featured'"></MyDrawer>
+    </StackLayout>
+    
+    <!--
+    Use the tkMainContent directive to display the content of the page when you have an app drawer.
+    -->
+    <GridLayout class="page page-content" tkMainContent>
+        <ScrollView>
+            <StackLayout class="page-styling padding-50"><!-- CONTENT HERE -->
+                <!-- <Label class="fa" text="&#xf005;"></Label> -->
+                <Label class="text-center head-title text-bold fa" text="&#xf01d; COIN SECURE" textWrap="true"></Label>
+                <Label class="text-center head-title-2 my-20" text="Approve Authorization" textWrap="true"></Label>
+                <Label class="text-center my-20 text-bold" text="DETAILS TO BE SHARED WITH COIN SECURE" textWrap="true"></Label>
+                <RadListView class="list-group"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <StackLayout row="0" col="0" >
+                                <Label text="EMAIL ADDRESS" class="list-group-item-text"></Label>
+                                <Label text="manav@velix.id" class="list-group-item-heading"></Label>
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <StackLayout row="0" col="0" >
+                                <Label text="MOBILE NO." class="list-group-item-text"></Label>
+                                <Label text="+1646 1234 123" class="list-group-item-heading"></Label>
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+                <StackLayout class="mtop-40">
+                    <Label class="text-center py-10 terms" text="By continuing you agree to these applied info with Coin Secure. By continuing you agree to the Velix.ID Terms & Condition" textWrap="true"></Label>
+                    <Button class="btn btn-rounded-lg btn-primary btn-active" text="AUTHORIZE COIN SECURE" [nsRouterLink]="['/authorize']"></Button>                
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </GridLayout>
+</RadSideDrawer>

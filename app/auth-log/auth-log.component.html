@@ -9,7 +9,7 @@
     <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
         ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="Authorisation Log"></Label>
+    <Label class="action-bar-title" text="Authorization Log"></Label>
 </ActionBar>
 
 <!--
@@ -26,12 +26,43 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     <StackLayout tkDrawerContent>
         <MyDrawer [selectedPage]="'AuthLog'"></MyDrawer>
     </StackLayout>
-    
+    <GridLayout class="page page-content" tkMainContent>
+        <ScrollView>
+            <StackLayout class="page-styling">
+                <!-- <StackLayout class="page-styling m-t-30"> -->
+                <!-- <Label text="LOG" textWrap="true"></Label> -->
+                <!-- <Label [text]="logs.length" textWrap="true"></Label> -->
+                <!-- <ListView [items]="log" *ngIf="gotLogs">
+                    <ListView.itemTemplate>
+                        <Label text="'Downloading...'" textWrap="true" class="title"></Label>
+                    </ListView.itemTemplate>
+                </ListView> -->
+                <RadListView class="list-group" *ngFor="let item of logs"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <!-- <Label text="FULL NAME" class="list-group-item-text m-x-5"></Label> -->
+                                <Label [text]="item.timestamp | date:'medium'" class="list-group-item-text m-x-5"></Label>
+                                <!-- <Label [text]="item.targetUser" class="list-group-item-text m-x-5"></Label> -->
+                                <Label text="{{item.message}} {{item.targetUser}}" textWrap="true" class="list-group-item-text m-x-5"></Label>
+                                <!-- <Label text="November 14, 1988" class="list-group-item-heading"></Label> -->
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+            </StackLayout>
+        </ScrollView>
+    </GridLayout>
     <!--
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
-    <GridLayout class="page page-content" tkMainContent>
+    <!-- <GridLayout class="page page-content" tkMainContent> -->
         <!-- <Label class="page-icon fa" text="&#xf002;"></Label> -->
-        <Label class="page-placeholder" text="Coming Soon....."></Label>
-    </GridLayout>
+        <!-- <Label class="page-placeholder" text="Coming Soon....."></Label> -->
+    <!-- </GridLayout> -->
 </RadSideDrawer>

@@ -1,0 +1,159 @@
+<ActionBar class="action-bar">
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
+    -->
+    <!-- <NavigationButton ios:visibility="hidden" icon="res://menu"></NavigationButton> -->
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
+    -->
+    <!-- <ActionItem icon="res://navigation/menu" android:visibility="hidden" -->
+        <!-- ios.position="left"> -->
+    <!-- </ActionItem> -->
+    <Label class="action-bar-title" text="Velix.ID"></Label>
+</ActionBar>
+
+<!--
+RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/getting-started
+The RadSideDrawer component is designed to be used as a root element and
+it shouldn't have any other siblings other than the <ActionBar> component.
+-->
+<!-- <RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition"> -->
+    <!--
+    Use the tkDrawerContent directive to display the content of the app drawer on this page.
+    -->
+    <!-- <StackLayout tkDrawerContent>
+        <MyDrawer [selectedPage]="'Register'"></MyDrawer>
+    </StackLayout> -->
+    
+    <!--
+    Use the tkMainContent directive to display the content of the page when you have an app drawer.
+    -->
+    <GridLayout class="page page-content" tkMainContent rows="auto, *" *ngIf="!toHide">
+        <ScrollView row="1" height="auto">
+            <StackLayout class="page-styling m-t-30"><!-- CONTENT HERE -->
+                <!-- <StackLayout> -->
+                <!-- <FlexboxLayout flexDirection="column-reverse" justifyContent="space-around" alignItems="stretch"> -->
+                    <!-- <Image src="~/assets/images/velix.png" alignSelf="center"></Image> -->
+                <!-- </FlexboxLayout> -->
+                <!-- <Button class="btn-radius" text="View Register" (tap)="alert('profile')"></Button> -->
+                <!-- </StackLayout> -->
+                <!-- <StackLayout> -->
+                    <!-- <GridLayout rows="auto, auto" columns="50, auto" class="border-bottom-2">
+                        <Label row="0" rowSpan="2" col="0" class="fa" text="&#xf00c;" textWrap="true"></Label>
+                        <Label row="0" col="1" text="LEGAL NAME"></Label>
+                        <Label row="1" col="1" text="Manav Singhal"></Label>
+                    </GridLayout> -->
+                <!-- <Label class="text-center head-title" text="Login/Signup" textWrap="true"></Label> -->
+                <GridLayout class="m-x-20 p-b-20" rows="*, *" columns="*, *">
+                    <Label class="text-lg text-center text-active" text="Register" *ngIf="entryCode==0" row="0" col="0"></Label>
+                    <Label class="text-lg text-center text-blue" *ngIf="entryCode==0" text="Login" (tap)="changeToLogin()" row="0" col="1"></Label>
+                    <Label class="text-lg text-center text-blue" text="Register" (tap)="changeToLogin()" *ngIf="entryCode==1" row="0" col="0"></Label>
+                    <Label class="text-lg text-center text-active" *ngIf="entryCode==1" text="Login" row="0" col="1"></Label>
+                </GridLayout>
+                <!-- <Button class="btn btn-primary btn-radius btn-active" *ngIf="entryCode==0" text="Register"></Button> -->
+                <!-- <Button class="btn btn-primary btn-radius btn-active" *ngIf="entryCode==1" text="Login"></Button> -->
+                <!-- <Label class="text-center" *ngIf="entryCode==0" text="Register"></Label> -->
+                <!-- <Label class="text-center" *ngIf="entryCode==1" text="Login"></Label> -->
+                <RadListView class="list-group" *ngIf="entryCode==0"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="FULL NAME" class="list-group-item-text m-x-5"></Label>
+                                <TextField autocapitalization="none" hint="John Doe" [text]="name" [(ngModel)]="name"></TextField>
+                                <!-- <Label text="November 14, 1988" class="list-group-item-heading"></Label> -->
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+                
+                <RadListView class="list-group" *ngIf="entryCode==1"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="VELIX ID or EMAIL" class="list-group-item-text m-x-5"></Label>
+                                <TextField autocapitalization="none" keyboardType="email" hint="johndoe@abc.xyz" [text]="id" [(ngModel)]="id"></TextField>
+                                <!-- <Label text="November 14, 1988" class="list-group-item-heading"></Label> -->
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+
+                <RadListView class="list-group" *ngIf="entryCode==0"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="EMAIL" class="list-group-item-text m-x-5"></Label>
+                                <TextField autocapitalization="none" keyboardType="email" hint="johndoe@abc.xyz" [text]="email" [(ngModel)]="email"></TextField>
+                                <!-- <Label text="November 14, 1988" class="list-group-item-heading"></Label> -->
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+                
+                <RadListView class="list-group"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>
+                    <RadListView.itemTemplate>
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="PASSWORD" class="list-group-item-text m-x-5"></Label>
+                                <TextField autocapitalization="none" hint="********" secure="true" [text]="password" [(ngModel)]="password"></TextField>
+                                <!-- <Label text="manav@velix.id" class="list-group-item-heading"></Label> -->
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+                <RadListView class="list-group" *ngIf="entryCode==0"> 
+                    <RadListView.listViewLayout>
+                        <ListViewLinearLayout scrollDirection="Vertical"></ListViewLinearLayout>
+                    </RadListView.listViewLayout>    
+                    <RadListView.itemTemplate row="1">
+                        <GridLayout class="list-group-item" rows="auto" columns="auto, *">
+                            <!-- <Label row="0" col="0" class="mx-10 fa size-20" text="&#xf00c;"></Label> -->
+                            <!-- <Image row="0" col="0" src="https://marketplace.canva.com/MACOaLzwqqo/1/thumbnail_large/canva-male-profile-silhouette-icon-MACOaLzwqqo.png" class="thumb img-rounded"></Image> -->
+                            <StackLayout row="0" col="1" >
+                                <Label text="REPEAT PASSWORD" class="list-group-item-text m-x-5"></Label>
+                                <TextField autocapitalization="none" hint="********" secure="true" [text]="password2" [(ngModel)]="password2"></TextField>
+                                <!-- <Label text="Manav Singhal" class="list-group-item-heading"></Label> -->
+                            </StackLayout>
+                        </GridLayout>
+                    </RadListView.itemTemplate>
+                </RadListView>
+                <!-- <GridLayout class="m-x-20" rows="auto" columns="auto, *">                 -->
+                    <!-- <Label *ngIf="entryCode==1" row="0" col="0" class="m-r-10" text="Trouble logging in?" textWrap="true"></Label> -->
+                    <!-- <Label *ngIf="entryCode==0" row="0" col="0" class="m-r-10" text="Existing user?" textWrap="true"></Label> -->
+                    <!-- <Label row="0" col="1" class="text-blue" text="Click Here!" (tap)="changeToLogin()" textWrap="true"></Label> -->
+                <!-- </GridLayout> -->
+                <StackLayout class="my-20">
+                    <Button *ngIf="entryCode==0" class="btn btn-rounded-lg btn-primary btn-active" text="SIGNUP" (tap)="signUp()"></Button>                
+                    <Button *ngIf="entryCode==1" class="btn btn-rounded-lg btn-primary btn-active" text="LOGIN" (tap)="login()"></Button>                
+                </StackLayout>
+                <!-- <StackLayout class="page-styling">
+                    <Label class="text-center" text="Your Velix.ID" textWrap="true"></Label>
+                    <Label class="text-center head-title" text="4231 9876" textWrap="true"></Label>
+                </StackLayout> -->
+            </StackLayout>
+        </ScrollView>
+        <Loader [isLoading]="isLoading" *ngIf="isLoading"></Loader>
+    </GridLayout>
+<!-- </RadSideDrawer> -->

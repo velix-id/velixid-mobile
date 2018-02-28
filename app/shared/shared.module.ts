@@ -4,6 +4,7 @@ import { NativeScriptUISideDrawerModule } from "nativescript-pro-ui/sidedrawer/a
 
 import { MyDrawerItemComponent } from "./my-drawer-item/my-drawer-item.component";
 import { MyDrawerComponent } from "./my-drawer/my-drawer.component";
+import { LoadingComponent } from "./loading/loading.component";
 
 @NgModule({
     imports: [
@@ -12,10 +13,12 @@ import { MyDrawerComponent } from "./my-drawer/my-drawer.component";
     ],
     declarations: [
         MyDrawerComponent,
+        LoadingComponent,
         MyDrawerItemComponent
     ],
     exports: [
         MyDrawerComponent,
+        LoadingComponent,
         NativeScriptUISideDrawerModule
     ],
     schemas: [

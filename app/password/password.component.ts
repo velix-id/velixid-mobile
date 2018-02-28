@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
-import { SecureStorage } from "nativescript-secure-storage";
 import { RouterExtensions } from "nativescript-angular/router";
-
+// import { SecureStorage } from "nativescript-secure-storage";
+import * as applicationSettings from "application-settings";
 // instantiate the plugin
-
 @Component({
     selector: "Password",
     moduleId: module.id,
@@ -13,10 +12,12 @@ import { RouterExtensions } from "nativescript-angular/router";
     styleUrls: ['./password.component.css']
 })
 export class PasswordComponent implements OnInit {
-    secureStorage = new SecureStorage();
+    // secureStorage = new SecureStorage();
+    screenCode:Number=1; //0->Create PIN, 1->Enter PIN for login
     pin:String="";
     heading:String="Enter PIN";
     hint:String="Enter 4-digit PIN";
+    pass:String="Login";
     /* ***********************************************************
     * Use the @ViewChild decorator to get a reference to the drawer component.
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
@@ -30,7 +31,7 @@ export class PasswordComponent implements OnInit {
     *************************************************************/
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
-        this.secureStorage.get({
+        /* this.applicationSettings.get({
             key: "pin"
           }).then(value => {
               if(!value){
@@ -38,11 +39,31 @@ export class PasswordComponent implements OnInit {
                 this.pin="";
                 this.hint="Create 4-digit PIN";
               }
-          });
+          }); */
+          /* let pin:String=applicationSettings.getString("pin");
+          if(!pin){
+            this.heading="Create PIN";
+            this.pin="";
+            this.hint="Create 4-digit PIN";
+            this.screenCode=0;
+          } */
+          if(applicationSettings.getString("pin").length==4){
+              this.screenCode=0;
+          }
+    }
+    login(){
+        let pass=applicationSettings.getString("pin");
+        // this.pass=String(pass);
+        if(this.pin==pass){
+            this.router.navigate(["/home"],{clearHistory: true});
+        }
+        else{
+            this.pin="";
+        }
     }
     setPin(){
         if(this.pin.length==4){
-            this.secureStorage.set({
+            /* this.applicationSettings.set({
                 key: "pin",
                 value: String(this.pin)
             }).then(success => {
@@ -50,7 +71,9 @@ export class PasswordComponent implements OnInit {
                 if(success){
                     this.router.navigate(["/home"],{clearHistory: true});
                 }
-            });
+            }); */
+            applicationSettings.setString("pin",String(this.pin));
+            this.router.navigate(["/home"],{clearHistory: true});
         }
     }
     get sideDrawerTransition(): DrawerTransitionBase {

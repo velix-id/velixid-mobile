@@ -18,7 +18,7 @@ Learn more about the RadSideDrawer UI component and how it can be customized in 
 http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/getting-started
 The RadSideDrawer component is designed to be used as a root element and
 it shouldn't have any other siblings other than the <ActionBar> component.
--->
+--> 
 <RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
     <!--
     Use the tkDrawerContent directive to display the content of the app drawer on this page.
@@ -30,22 +30,26 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     <!--
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
-    <GridLayout class="page page-content" tkMainContent>
-        <ScrollView>
+    <GridLayout class="page page-content" tkMainContent rows="auto, *" [isUserInteractionEnabled]="!isLoading">
+        <ScrollView row="1">
             <StackLayout class="page-styling p-t-30"><!-- CONTENT HERE -->
                 <Label class="text-center" text="Welcome!" textWrap="true"></Label>
-                <Label class="text-center head-title" text="Manav Singhal" textWrap="true"></Label>
+                <Label class="text-center head-title" [text]="user.name" textWrap="true"></Label>
                 <StackLayout class="page-styling">
                     <Label class="text-center" text="Your Velix.ID" textWrap="true"></Label>
-                    <Label class="text-center head-title" text="4231 9876" textWrap="true"></Label>
+                    <Label class="text-center head-title" [text]="user.userID" textWrap="true"></Label>
                 </StackLayout>
                 <StackLayout class="p-30">
                     <Image src="~/assets/images/qr-code.jpg" align="center" stretch="fill"></Image>
                 </StackLayout>
                 <Button class="btn btn-rounded-lg btn-outline btn-primary btn-active" text="View Profile" [nsRouterLink]="['/profile']"></Button>
+                <!-- <Button class="btn btn-rounded-lg btn-outline btn-primary btn-active" text="Request Auth" (tap)="requestAuth()"></Button> -->
+                <!-- <Button class="btn btn-rounded-lg btn-outline btn-primary btn-active" text="GetLogs" (tap)="getLogs()"></Button> -->
+                <!-- <Button class="btn btn-rounded-lg btn-outline btn-primary btn-active" text="LogUserData" (tap)="logUserData()"></Button> -->
             </StackLayout>
         </ScrollView>
         <!-- <Label class="page-icon fa" text="&#xf015;"></Label> -->
         <!-- <Label class="page-placeholder" text="Page content goes here"></Label> -->
+        <Loader [isLoading]="isLoading" *ngIf="isLoading"></Loader>
     </GridLayout>
 </RadSideDrawer>
