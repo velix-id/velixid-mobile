@@ -11,8 +11,12 @@
 > 	> `tns run android`
 > 	> For testing in iOS:
 > 	> `tns run ios`
-> 7. For final apk/ipa build:
+> 7. For apk/ipa debug build:
 > 	> `tns build android`
+> 	> &
+> 	> `tns build ios`
+> 8. For apk/ipa RELEASE build:
+> 	> `tns build android --release --keyStorePath keystore-file-path --keyStorePassword keystore-password --keyStoreAlias alias-name --keyStoreAliasPassword alias-password`
 > 	> &
 > 	> `tns build ios`
 
